@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nálady a vracanie</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Moje nálady a vracanie</h1>
+
+        <!-- Nálady -->
+        <div>
+            <h3>Zaznamenaj svoju náladu</h3>
+            <button onclick="recordMood('prevažne smutná')">Prevažne smutná</button>
+            <button onclick="recordMood('prevažne veselá')">Prevažne veselá</button>
+            <button onclick="recordMood('prevažne nahnevaná')">Prevažne nahnevaná</button>
+        </div>
+
+        <h3>Moje nálady</h3>
+        <ul id="mood-list"></ul>
+
+        <!-- Vracanie -->
+        <div>
+            <h3>Zaznamenaj vracanie</h3>
+            <label for="reason">Komentár:</label>
+            <textarea id="reason" placeholder="Prečo si vracala?"></textarea>
+            <button onclick="recordThrowUp()">Zaznamenať vracanie</button>
+        </div>
+
+        <h3>Moje vracanie</h3>
+        <ul id="throw-up-list"></ul>
+
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
