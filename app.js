@@ -28,6 +28,7 @@ function addRecord() {
 
     const record = { date, time, throwUp, trigger, foodAfter, comments };
     records.push(record);
+    console.log(records); // Sleduj pridanie nového záznamu
     saveRecords();
     updateRecordList();
     clearForm();
@@ -43,12 +44,14 @@ function loadRecords() {
     const storedRecords = localStorage.getItem("records");
     if (storedRecords) {
         records = JSON.parse(storedRecords);
+        console.log(records); // Sleduj načítanie údajov zo storage
         updateRecordList();
     }
 }
 
 // Aktualizácia zoznamu záznamov
 function updateRecordList() {
+    console.log(records); // Sleduj obsah records pri aktualizácii zoznamu
     const recordList = document.getElementById("record-list");
     recordList.innerHTML = ""; // Vyčistenie zoznamu pred aktualizáciou
     records.forEach((record, index) => {
