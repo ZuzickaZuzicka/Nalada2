@@ -6,6 +6,7 @@ function login() {
     if (password === "tvoje_heslo") {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("app").style.display = "block";
+        loadRecords(); // Načítanie záznamov pri prihlásení
     } else {
         alert("Nesprávne heslo!");
     }
@@ -25,14 +26,7 @@ function addRecord() {
         return;
     }
 
-    const record = {
-        date,
-        time,
-        throwUp,
-        trigger,
-        foodAfter,
-        comments
-    };
+    const record = { date, time, throwUp, trigger, foodAfter, comments };
     records.push(record);
     saveRecords();
     updateRecordList();
@@ -56,7 +50,7 @@ function loadRecords() {
 // Aktualizácia zoznamu záznamov
 function updateRecordList() {
     const recordList = document.getElementById("record-list");
-    recordList.innerHTML = "";
+    recordList.innerHTML = ""; // Vyčistenie zoznamu pred aktualizáciou
     records.forEach((record, index) => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
@@ -93,11 +87,22 @@ function deleteRecord(index) {
     }
 }
 
-// Filter
+// Prepínanie zobrazenia histórie
+function toggleHistory() {
+    const historyDiv = document.getElementById("history");
+    if (historyDiv.style.display === "none") {
+        historyDiv.style.display = "block";
+        updateRecordList(); // Aktualizácia zoznamu pri zobrazení histórie
+    } else {
+        historyDiv.style.display = "none";
+    }
+}
+
+// Filter záznamov podľa dátumu
 function applyFilter() {
     const startDate = document.getElementById("filter-date-start").value;
     const endDate = document.getElementById("filter-date-end").value;
-    const filteredRecords = records.filter(record => 
+    const filteredRecords = records.filter(record =>
         (!startDate || record.date >= startDate) &&
         (!endDate || record.date <= endDate)
     );
@@ -124,7 +129,7 @@ function displayFilteredRecords(filteredRecords) {
 function printFiltered() {
     const startDate = document.getElementById("filter-date-start").value;
     const endDate = document.getElementById("filter-date-end").value;
-    const filteredRecords = records.filter(record => 
+    const filteredRecords = records.filter(record =>
         (!startDate || record.date >= startDate) &&
         (!endDate || record.date <= endDate)
     );
@@ -151,4 +156,4 @@ function clearForm() {
 }
 
 // Načítanie údajov pri načítaní stránky
-loadRecords();
+window.onload = loadRecords;
