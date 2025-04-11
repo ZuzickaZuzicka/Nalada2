@@ -3,36 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nálady a vracanie</title>
+    <title>História nálad a vracania</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <div id="login-screen">
+        <h2>Prihlásenie</h2>
+        <input type="password" id="password" placeholder="Zadaj heslo">
+        <button onclick="login()">Prihlásiť</button>
+    </div>
+
+    <div id="app" class="container" style="display: none;">
         <h1>Moje nálady a vracanie</h1>
 
-        <!-- Nálady -->
+        <!-- Formulár -->
         <div>
-            <h3>Zaznamenaj svoju náladu</h3>
-            <button onclick="recordMood('prevažne smutná')">Prevažne smutná</button>
-            <button onclick="recordMood('prevažne veselá')">Prevažne veselá</button>
-            <button onclick="recordMood('prevažne nahnevaná')">Prevažne nahnevaná</button>
-            <button onclick="recordMood('prevažne motivovaná')">Prevažne motivovaná</button>
+            <h3>Pridať záznam</h3>
+            <input type="date" id="record-date">
+            <input type="time" id="record-time">
+            <label>
+                <input type="checkbox" id="throw-up-check"> Vracanie
+            </label>
+            <textarea id="trigger" placeholder="Impulz spojený s vracaním"></textarea>
+            <textarea id="food-after" placeholder="Čo som jedla po vracaní"></textarea>
+            <textarea id="comments" placeholder="Iné komentáre"></textarea>
+            <button onclick="addRecord()">Pridať záznam</button>
         </div>
 
-        <h3>Moje nálady</h3>
-        <ul id="mood-list"></ul>
-
-        <!-- Vracanie -->
+        <!-- História -->
         <div>
-            <h3>Zaznamenaj vracanie</h3>
-            <label for="reason">Komentár:</label>
-            <textarea id="reason" placeholder="Prečo si vracala?"></textarea>
-            <button onclick="recordThrowUp()">Zaznamenať vracanie</button>
+            <button onclick="toggleHistory()">Zobraziť históriu</button>
+            <div id="history" style="display: none;">
+                <h3>História záznamov</h3>
+                <label for="filter-date-start">Filter od dátumu:</label>
+                <input type="date" id="filter-date-start">
+                <label for="filter-date-end">Do dátumu:</label>
+                <input type="date" id="filter-date-end">
+                <button onclick="applyFilter()">Použiť filter</button>
+                <button onclick="printFiltered()">Tlačiť filtrované</button>
+                <ul id="record-list"></ul>
+            </div>
         </div>
 
-        <h3>Moje vracanie</h3>
-        <ul id="throw-up-list"></ul>
-
+        <!-- Štatistiky -->
+        <div>
+            <h3>Štatistiky</h3>
+            <p id="stats"></p>
+        </div>
     </div>
     <script src="app.js"></script>
 </body>
