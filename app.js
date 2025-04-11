@@ -1,68 +1,154 @@
-let moods = []; // Ukladanie nálad
-let throwUps = []; // Ukladanie vracania
+let records = [];
 
-// Funkcia na zaznamenanie nálady
-function recordMood(mood) {
-    let currentDate = new Date();
-    let moodData = {
-        date: currentDate.toISOString().split('T')[0],
-        time: currentDate.toLocaleTimeString(),
-        mood: mood
-    };
-    moods.push(moodData);
-    updateMoodList();
-}
-
-// Funkcia na aktualizáciu zoznamu nálad
-function updateMoodList() {
-    let moodList = document.getElementById("mood-list");
-    moodList.innerHTML = "";
-    moods.forEach((moodData, index) => {
-        let listItem = document.createElement("li");
-        listItem.innerHTML = `${moodData.date} ${moodData.time}: ${moodData.mood} <button onclick="editMood(${index})">Upravit</button>`;
-        moodList.appendChild(listItem);
-    });
-}
-
-// Funkcia na editovanie nálady
-function editMood(index) {
-    let newMood = prompt("Zadaj novú náladu:", moods[index].mood);
-    if (newMood) {
-        moods[index].mood = newMood;
-        updateMoodList();
+// Prihlásenie
+function login() {
+    const password = document.getElementById("password").value;
+    if (password === "tvoje_heslo") {
+        document.getElementById("login-screen").style.display = "none";
+        document.getElementById("app").style.display = "block";
+    } else {
+        alert("Nesprávne heslo!");
     }
 }
 
-// Funkcia na zaznamenanie vracania
-function recordThrowUp() {
-    let reason = document.getElementById("reason").value;
-    let currentDate = new Date();
-    let throwUpData = {
-        date: currentDate.toISOString().split('T')[0],
-        time: currentDate.toLocaleTimeString(),
-        reason: reason
+// Pridanie záznamu
+function addRecord() {
+    const date = document.getElementById("record-date").value;
+    const time = document.getElementById("record-time").value;
+    const throwUp = document.getElementById("throw-up-check").checked;
+    const trigger = document.getElementById("trigger").value;
+    const foodAfter = document.getElementById("food-after").value;
+    const comments = document.getElementById("comments").value;
+
+    if (!date || !time) {
+        alert("Dátum a čas sú povinné!");
+        return;
+    }
+
+    const record = {
+        date,
+        time,
+        throwUp,
+        trigger,
+        foodAfter,
+        comments
     };
-    throwUps.push(throwUpData);
-    updateThrowUpList();
-    document.getElementById("reason").value = ""; // Vymazať pole komentára po zaznamenaní
+    records.push(record);
+    saveRecords();
+    updateRecordList();
+    clearForm();
 }
 
-// Funkcia na aktualizáciu zoznamu vracania
-function updateThrowUpList() {
-    let throwUpList = document.getElementById("throw-up-list");
-    throwUpList.innerHTML = "";
-    throwUps.forEach((throwUpData, index) => {
-        let listItem = document.createElement("li");
-        listItem.innerHTML = `${throwUpData.date} ${throwUpData.time}: ${throwUpData.reason} <button onclick="editThrowUp(${index})">Upravit</button>`;
-        throwUpList.appendChild(listItem);
+// Uloženie údajov do localStorage
+function saveRecords() {
+    localStorage.setItem("records", JSON.stringify(records));
+}
+
+// Načítanie údajov z localStorage
+function loadRecords() {
+    const storedRecords = localStorage.getItem("records");
+    if (storedRecords) {
+        records = JSON.parse(storedRecords);
+        updateRecordList();
+    }
+}
+
+// Aktualizácia zoznamu záznamov
+function updateRecordList() {
+    const recordList = document.getElementById("record-list");
+    recordList.innerHTML = "";
+    records.forEach((record, index) => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+            ${record.date} ${record.time} - ${record.throwUp ? "Vracanie" : "Bez vracania"}
+            <br>Impulz: ${record.trigger || "N/A"} 
+            <br>Jedlo po vracaní: ${record.foodAfter || "N/A"} 
+            <br>Komentár: ${record.comments || "N/A"}
+            <button onclick="editRecord(${index})">Upraviť</button>
+            <button onclick="deleteRecord(${index})">Vymazať</button>
+        `;
+        recordList.appendChild(listItem);
     });
 }
 
-// Funkcia na editovanie vracania
-function editThrowUp(index) {
-    let newReason = prompt("Zadaj nový komentár k vracaniu:", throwUps[index].reason);
-    if (newReason) {
-        throwUps[index].reason = newReason;
-        updateThrowUpList();
+// Editácia záznamu
+function editRecord(index) {
+    const record = records[index];
+    const newTrigger = prompt("Uprav impulz:", record.trigger || "");
+    const newFoodAfter = prompt("Uprav jedlo po vracaní:", record.foodAfter || "");
+    const newComments = prompt("Uprav komentár:", record.comments || "");
+    if (newTrigger !== null) record.trigger = newTrigger;
+    if (newFoodAfter !== null) record.foodAfter = newFoodAfter;
+    if (newComments !== null) record.comments = newComments;
+    saveRecords();
+    updateRecordList();
+}
+
+// Vymazanie záznamu
+function deleteRecord(index) {
+    if (confirm("Naozaj chceš záznam vymazať?")) {
+        records.splice(index, 1);
+        saveRecords();
+        updateRecordList();
     }
 }
+
+// Filter
+function applyFilter() {
+    const startDate = document.getElementById("filter-date-start").value;
+    const endDate = document.getElementById("filter-date-end").value;
+    const filteredRecords = records.filter(record => 
+        (!startDate || record.date >= startDate) &&
+        (!endDate || record.date <= endDate)
+    );
+    displayFilteredRecords(filteredRecords);
+}
+
+// Zobrazenie filtrovaných záznamov
+function displayFilteredRecords(filteredRecords) {
+    const recordList = document.getElementById("record-list");
+    recordList.innerHTML = "";
+    filteredRecords.forEach(record => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+            ${record.date} ${record.time} - ${record.throwUp ? "Vracanie" : "Bez vracania"}
+            <br>Impulz: ${record.trigger || "N/A"} 
+            <br>Jedlo po vracaní: ${record.foodAfter || "N/A"} 
+            <br>Komentár: ${record.comments || "N/A"}
+        `;
+        recordList.appendChild(listItem);
+    });
+}
+
+// Tlač záznamov
+function printFiltered() {
+    const startDate = document.getElementById("filter-date-start").value;
+    const endDate = document.getElementById("filter-date-end").value;
+    const filteredRecords = records.filter(record => 
+        (!startDate || record.date >= startDate) &&
+        (!endDate || record.date <= endDate)
+    );
+    const printableContent = filteredRecords.map(record => `
+        ${record.date} ${record.time} - ${record.throwUp ? "Vracanie" : "Bez vracania"}
+        \nImpulz: ${record.trigger || "N/A"} 
+        \nJedlo po vracaní: ${record.foodAfter || "N/A"} 
+        \nKomentár: ${record.comments || "N/A"}
+    `).join("\n\n");
+    const printWindow = window.open("", "", "width=800,height=600");
+    printWindow.document.write(`<pre>${printableContent}</pre>`);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+// Vyčistenie formulára
+function clearForm() {
+    document.getElementById("record-date").value = "";
+    document.getElementById("record-time").value = "";
+    document.getElementById("throw-up-check").checked = false;
+    document.getElementById("trigger").value = "";
+    document.getElementById("food-after").value = "";
+    document.getElementById("comments").value = "";
+}
+
+// Načítanie údajov pri načítaní stránky
+loadRecords();
