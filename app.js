@@ -2,9 +2,9 @@ let records = [];
 
 // Prihlásenie bez hesla
 function accessApp() {
-    document.getElementById("login-screen").style.display = "none"; // Hide login screen
-    document.getElementById("app").style.display = "block"; // Show main app
-    loadRecords(); // Load saved records
+    document.getElementById("login-screen").style.display = "none"; // Skrytie prihlasovacej obrazovky
+    document.getElementById("app").style.display = "block"; // Zobrazenie hlavnej aplikácie
+    loadRecords(); // Načítanie uložených záznamov
 }
 
 // Pridanie záznamu
@@ -49,7 +49,7 @@ function loadRecords() {
 // Aktualizácia zoznamu záznamov
 function updateRecordList() {
     const recordList = document.getElementById("record-list");
-    recordList.innerHTML = ""; // Clear the list before updating
+    recordList.innerHTML = ""; // Vymazanie zoznamu pred aktualizáciou
     records.forEach((record, index) => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
@@ -65,49 +65,6 @@ function updateRecordList() {
         `;
         recordList.appendChild(listItem);
     });
-}
-
-// Editácia záznamu
-function editRecord(index) {
-    const record = records[index];
-    const newTrigger = prompt("Uprav impulz:", record.trigger || "");
-    const newFoodAfter = prompt("Uprav jedlo po vracaní:", record.foodAfter || "");
-    const newComments = prompt("Uprav komentár:", record.comments || "");
-    const newEnglish = confirm("Učila si sa dnes angličtinu?") ? true : false;
-    const newRetinol = confirm("Použila si dnes retinol?") ? true : false;
-    const newCream = prompt("Uprav krém:", record.cream || "N/A");
-
-    if (newTrigger !== null) record.trigger = newTrigger;
-    if (newFoodAfter !== null) record.foodAfter = newFoodAfter;
-    if (newComments !== null) record.comments = newComments;
-    record.english = newEnglish;
-    record.retinol = newRetinol;
-    if (newCream !== null) record.cream = newCream;
-
-    saveRecords();
-    updateRecordList();
-    updateStats();
-}
-
-// Vymazanie záznamu
-function deleteRecord(index) {
-    if (confirm("Naozaj chceš záznam vymazať?")) {
-        records.splice(index, 1);
-        saveRecords();
-        updateRecordList();
-        updateStats();
-    }
-}
-
-// Prepínanie zobrazenia histórie
-function toggleHistory() {
-    const historyDiv = document.getElementById("history");
-    if (historyDiv.style.display === "none") {
-        historyDiv.style.display = "block";
-        updateRecordList();
-    } else {
-        historyDiv.style.display = "none";
-    }
 }
 
 // Filter záznamov podľa dátumu a času
@@ -127,7 +84,7 @@ function applyFilter() {
 // Zobrazenie filtrovaných záznamov
 function displayFilteredRecords(filteredRecords) {
     const recordList = document.getElementById("record-list");
-    recordList.innerHTML = "";
+    recordList.innerHTML = ""; // Vymazanie pred zobrazením
     filteredRecords.forEach(record => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
@@ -143,7 +100,8 @@ function displayFilteredRecords(filteredRecords) {
     });
 }
 
-// Štatistiky zahŕňajú dátumy a časy
+// Štatistiky
 function updateStats() {
     const stats = document.getElementById("stats");
-    stats.innerText = `Celkov
+    stats.innerText = `Celkový počet záznamov: ${records.length}`;
+}
