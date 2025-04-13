@@ -110,13 +110,16 @@ function toggleHistory() {
     }
 }
 
-// Filter záznamov podľa dátumu
+// Filter záznamov podľa dátumu a času
 function applyFilter() {
     const startDate = document.getElementById("filter-date-start").value;
+    const startTime = document.getElementById("filter-time-start").value;
     const endDate = document.getElementById("filter-date-end").value;
+    const endTime = document.getElementById("filter-time-end").value;
+
     const filteredRecords = records.filter(record =>
-        (!startDate || record.date >= startDate) &&
-        (!endDate || record.date <= endDate)
+        (!startDate || record.date > startDate || (record.date === startDate && record.time >= startTime)) &&
+        (!endDate || record.date < endDate || (record.date === endDate && record.time <= endTime))
     );
     displayFilteredRecords(filteredRecords);
 }
@@ -140,8 +143,8 @@ function displayFilteredRecords(filteredRecords) {
     });
 }
 
-// Štatistiky
+// Štatistiky zahŕňajú dátumy a časy
 function updateStats() {
     const stats = document.getElementById("stats");
-    stats.innerText = `Celkový počet záznamov: ${records.length}`;
-}
+    const firstRecord = records[0];
+    const
