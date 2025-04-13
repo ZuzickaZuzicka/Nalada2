@@ -28,7 +28,6 @@ function addRecord() {
     records.push(record);
     saveRecords();
     updateRecordList();
-    clearForm();
 }
 
 // Uloženie údajov do localStorage
@@ -50,7 +49,7 @@ function loadRecords() {
 function updateRecordList() {
     const recordList = document.getElementById("record-list");
     recordList.innerHTML = ""; // Vymazanie zoznamu pred aktualizáciou
-    records.forEach((record, index) => {
+    records.forEach(record => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
             ${record.date} ${record.time} - ${record.throwUp ? "Vracanie" : "Bez vracania"}
@@ -60,8 +59,6 @@ function updateRecordList() {
             <br>Angličtina: ${record.english ? "Áno" : "Nie"}
             <br>Retinol: ${record.retinol ? "Áno" : "Nie"}
             <br>Krém: ${record.cream}
-            <button onclick="editRecord(${index})">Upraviť</button>
-            <button onclick="deleteRecord(${index})">Vymazať</button>
         `;
         recordList.appendChild(listItem);
     });
@@ -74,10 +71,15 @@ function applyFilter() {
     const endDate = document.getElementById("filter-date-end").value;
     const endTime = document.getElementById("filter-time-end").value;
 
-    const filteredRecords = records.filter(record =>
-        (!startDate || record.date > startDate || (record.date === startDate && record.time >= startTime)) &&
-        (!endDate || record.date < endDate || (record.date === endDate && record.time <= endTime))
-    );
+    const filteredRecords = records.filter(record => {
+        const recordDateTime = `${record.date}T${record.time}`;
+        const startDateTime = startDate && startTime ? `${startDate}T${startTime}` : null;
+        const endDateTime = endDate && endTime ? `${endDate}T${endTime}` : null;
+
+        return (!startDateTime || recordDateTime >= startDateTime) &&
+               (!endDateTime || recordDateTime <= endDateTime);
+    });
+
     displayFilteredRecords(filteredRecords);
 }
 
