@@ -32,16 +32,24 @@ function addRecord() {
 
 // Uloženie údajov do localStorage
 function saveRecords() {
-    localStorage.setItem("records", JSON.stringify(records));
+    try {
+        localStorage.setItem("records", JSON.stringify(records));
+    } catch (error) {
+        console.error("Chyba pri ukladaní záznamov do localStorage:", error);
+    }
 }
 
 // Načítanie údajov z localStorage
 function loadRecords() {
-    const storedRecords = localStorage.getItem("records");
-    if (storedRecords) {
-        records = JSON.parse(storedRecords);
-        updateRecordList();
-        updateStats();
+    try {
+        const storedRecords = localStorage.getItem("records");
+        if (storedRecords) {
+            records = JSON.parse(storedRecords);
+            updateRecordList();
+            updateStats();
+        }
+    } catch (error) {
+        console.error("Chyba pri načítavaní záznamov z localStorage:", error);
     }
 }
 
