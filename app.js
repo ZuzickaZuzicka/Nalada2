@@ -4,7 +4,7 @@ let records = [];
 function accessApp() {
     document.getElementById("login-screen").style.display = "none"; // Skrytie prihlasovacej obrazovky
     document.getElementById("app").style.display = "block"; // Zobrazenie hlavnej aplikácie
-    loadRecords(); // Načítanie uložených záznamov
+    loadRecords(); // Načítanie existujúcich záznamov z localStorage
 }
 
 // Pridanie záznamu
