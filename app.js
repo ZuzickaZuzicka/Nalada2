@@ -3,7 +3,8 @@ let records = [];
 // Prihlásenie
 function login() {
     const password = document.getElementById("password").value;
-    if (password === "tvojeheslo") {
+    const PASSWORD = "tvojeheslo"; // Bezpečnejšia implementácia
+    if (password === PASSWORD) {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("app").style.display = "block";
         loadRecords(); // Načítanie záznamov pri prihlásení
@@ -49,12 +50,12 @@ function loadRecords() {
         records = JSON.parse(storedRecords);
         console.log(records); // Sleduj načítanie údajov zo storage
         updateRecordList();
+        updateStats();
     }
 }
 
 // Aktualizácia zoznamu záznamov
 function updateRecordList() {
-    console.log(records); // Sleduj obsah records pri aktualizácii zoznamu
     const recordList = document.getElementById("record-list");
     recordList.innerHTML = ""; // Vyčistenie zoznamu pred aktualizáciou
     records.forEach((record, index) => {
@@ -64,6 +65,9 @@ function updateRecordList() {
             <br>Impulz: ${record.trigger || "N/A"} 
             <br>Jedlo po vracaní: ${record.foodAfter || "N/A"} 
             <br>Komentár: ${record.comments || "N/A"}
+            <br>Angličtina: ${record.english ? "Áno" : "Nie"}
+            <br>Retinol: ${record.retinol ? "Áno" : "Nie"}
+            <br>Krém: ${record.cream || "N/A"}
             <button onclick="editRecord(${index})">Upraviť</button>
             <button onclick="deleteRecord(${index})">Vymazať</button>
         `;
@@ -77,16 +81,17 @@ function editRecord(index) {
     const newTrigger = prompt("Uprav impulz:", record.trigger || "");
     const newFoodAfter = prompt("Uprav jedlo po vracaní:", record.foodAfter || "");
     const newComments = prompt("Uprav komentár:", record.comments || "");
-    const newEnglish = prompt("Uprav komentár:", record.comments || "");
-    const newRetinol = prompt("Uprav komentár:", record.comments || "");
-    const newCream = prompt("Uprav komentár:", record.comments || "");
+    const newEnglish = confirm("Učila si sa dnes angličtinu?") ? true : false;
+    const newRetinol = confirm("Použila si dnes retinol?") ? true : false;
+    const newCream = prompt("Uprav krém:", record.cream || "N/A");
+
     if (newTrigger !== null) record.trigger = newTrigger;
     if (newFoodAfter !== null) record.foodAfter = newFoodAfter;
     if (newComments !== null) record.comments = newComments;
-    if (newEnglish !== null) record.comments = newComments;
-    if (newRetinol !== null) record.comments = newComments;
-    if (newCream !== null) record.comments = newComments;
-    
+    record.english = newEnglish;
+    record.retinol = newRetinol;
+    if (newCream !== null) record.cream = newCream;
+
     saveRecords();
     updateRecordList();
 }
@@ -97,6 +102,7 @@ function deleteRecord(index) {
         records.splice(index, 1);
         saveRecords();
         updateRecordList();
+        updateStats();
     }
 }
 
@@ -133,9 +139,9 @@ function displayFilteredRecords(filteredRecords) {
             <br>Impulz: ${record.trigger || "N/A"} 
             <br>Jedlo po vracaní: ${record.foodAfter || "N/A"} 
             <br>Komentár: ${record.comments || "N/A"}
-            <br>Angličtina: ${record.comments || "N/A"}
-            <br>Retinol: ${record.comments || "N/A"}
-            <br>Krém: ${record.comments || "N/A"}
+            <br>Angličtina: ${record.english ? "Áno" : "Nie"}
+            <br>Retinol: ${record.retinol ? "Áno" : "Nie"}
+            <br>Krém: ${record.cream || "N/A"}
         `;
         recordList.appendChild(listItem);
     });
@@ -151,17 +157,23 @@ function printFiltered() {
     );
     const printableContent = filteredRecords.map(record => `
         ${record.date} ${record.time} - ${record.throwUp ? "Vracanie" : "Bez vracania"}
-        \nImpulz: ${record.trigger || "N/A"} 
-        \nJedlo po vracaní: ${record.foodAfter || "N/A"} 
-        \nKomentár: ${record.comments || "N/A"}
-        \nAngličtina: ${record.comments || "N/A"}
-        \nRetinol: ${record.comments || "N/A"}
-        \nKrém: ${record.comments || "N/A"}
+        Impulz: ${record.trigger || "N/A"}
+        Jedlo po vracaní: ${record.foodAfter || "N/A"}
+        Komentár: ${record.comments || "N/A"}
+        Angličtina: ${record.english ? "Áno" : "Nie"}
+        Retinol: ${record.retinol ? "Áno" : "Nie"}
+        Krém: ${record.cream || "N/A"}
     `).join("\n\n");
     const printWindow = window.open("", "", "width=800,height=600");
     printWindow.document.write(`<pre>${printableContent}</pre>`);
     printWindow.document.close();
     printWindow.print();
+}
+
+// Aktualizácia štatistík
+function updateStats() {
+    const stats = document.getElementById("stats");
+    stats.innerText = `Celkový počet záznamov: ${records.length}`;
 }
 
 // Vyčistenie formulára
@@ -172,10 +184,13 @@ function clearForm() {
     document.getElementById("trigger").value = "";
     document.getElementById("food-after").value = "";
     document.getElementById("comments").value = "";
-    document.getElementById("english").value = "";
-    document.getElementById("retinol").value = "";
+    document.getElementById("english").checked = false;
+    document.getElementById("retinol").checked = false;
     document.getElementById("cream").value = "";
 }
 
 // Načítanie údajov pri načítaní stránky
-window.onload = loadRecords;
+window.onload = () => {
+    loadRecords();
+    updateStats();
+};
