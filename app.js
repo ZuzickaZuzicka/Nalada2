@@ -146,5 +146,4 @@ function displayFilteredRecords(filteredRecords) {
 // Štatistiky zahŕňajú dátumy a časy
 function updateStats() {
     const stats = document.getElementById("stats");
-    const firstRecord = records[0];
-    const
+    stats.innerText = `Celkový počet
