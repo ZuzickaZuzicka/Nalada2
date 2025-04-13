@@ -2,9 +2,8 @@ let records = [];
 
 // Prihlásenie
 function login() {
-    const PASSWORD = "tvojeheslo"; // Statické heslo priamo v kóde
-    const passwordInput = document.getElementById("password").value.trim(); // Odstránenie medzier
-    if (passwordInput === PASSWORD) {
+    const password = document.getElementById("password").value;
+    if (password === "tvojeheslo") { // Priame porovnanie hesla
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("app").style.display = "block";
         loadRecords(); // Načítanie údajov
@@ -148,4 +147,5 @@ function displayFilteredRecords(filteredRecords) {
 
 // Tlač záznamov
 function printFiltered() {
-    const startDate
+    const startDate = document.getElementById("filter-date-start").value;
+    const endDate = document.getElementById("filter-date
