@@ -2,9 +2,9 @@ let records = [];
 
 // Prihlásenie bez hesla
 function accessApp() {
-    document.getElementById("login-screen").style.display = "none";
-    document.getElementById("app").style.display = "block";
-    loadRecords(); // Načítanie údajov
+    document.getElementById("login-screen").style.display = "none"; // Hide login screen
+    document.getElementById("app").style.display = "block"; // Show main app
+    loadRecords(); // Load saved records
 }
 
 // Pridanie záznamu
@@ -49,7 +49,7 @@ function loadRecords() {
 // Aktualizácia zoznamu záznamov
 function updateRecordList() {
     const recordList = document.getElementById("record-list");
-    recordList.innerHTML = ""; // Vymazanie zoznamu pred aktualizáciou
+    recordList.innerHTML = ""; // Clear the list before updating
     records.forEach((record, index) => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
@@ -146,4 +146,4 @@ function displayFilteredRecords(filteredRecords) {
 // Štatistiky zahŕňajú dátumy a časy
 function updateStats() {
     const stats = document.getElementById("stats");
-    stats.innerText = `Celkový počet
+    stats.innerText = `Celkov
