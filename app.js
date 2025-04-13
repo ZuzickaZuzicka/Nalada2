@@ -1,15 +1,10 @@
 let records = [];
 
-// Prihlásenie
-function login() {
-    const password = document.getElementById("password").value;
-    if (password === "tvojeheslo") { // Priame porovnanie hesla
-        document.getElementById("login-screen").style.display = "none";
-        document.getElementById("app").style.display = "block";
-        loadRecords(); // Načítanie údajov
-    } else {
-        alert("Nesprávne heslo!");
-    }
+// Prihlásenie bez hesla
+function accessApp() {
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    loadRecords(); // Načítanie údajov
 }
 
 // Pridanie záznamu
@@ -145,7 +140,8 @@ function displayFilteredRecords(filteredRecords) {
     });
 }
 
-// Tlač záznamov
-function printFiltered() {
-    const startDate = document.getElementById("filter-date-start").value;
-    const endDate = document.getElementById("filter-date
+// Štatistiky
+function updateStats() {
+    const stats = document.getElementById("stats");
+    stats.innerText = `Celkový počet záznamov: ${records.length}`;
+}
