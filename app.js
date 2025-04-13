@@ -3,7 +3,7 @@ let records = [];
 // Prihlásenie
 function login() {
     const password = document.getElementById("password").value;
-    if (password === "tvoje_heslo") {
+    if (password === "tvojeheslo") {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("app").style.display = "block";
         loadRecords(); // Načítanie záznamov pri prihlásení
