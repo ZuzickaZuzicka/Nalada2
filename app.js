@@ -2,12 +2,12 @@ let records = [];
 
 // Prihlásenie
 function login() {
-    const password = document.getElementById("password").value;
-    const PASSWORD = "tvojeheslo"; // Lepšie oddelenie hesla
-    if (password === PASSWORD) {
+    const PASSWORD = "tvojeheslo"; // Statické heslo priamo v kóde
+    const passwordInput = document.getElementById("password").value;
+    if (passwordInput === PASSWORD) {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("app").style.display = "block";
-        loadRecords(); // Načítanie záznamov pri prihlásení
+        loadRecords(); // Načítanie údajov
     } else {
         alert("Nesprávne heslo!");
     }
@@ -32,7 +32,6 @@ function addRecord() {
 
     const record = { date, time, throwUp, trigger, foodAfter, comments, english, retinol, cream };
     records.push(record);
-    console.log(records); // Sledovanie pridania záznamu
     saveRecords();
     updateRecordList();
     clearForm();
@@ -139,4 +138,14 @@ function displayFilteredRecords(filteredRecords) {
             <br>Impulz: ${record.trigger}
             <br>Jedlo po vracaní: ${record.foodAfter}
             <br>Komentár: ${record.comments}
-            <br>Angličtina: ${record
+            <br>Angličtina: ${record.english ? "Áno" : "Nie"}
+            <br>Retinol: ${record.retinol ? "Áno" : "Nie"}
+            <br>Krém: ${record.cream}
+        `;
+        recordList.appendChild(listItem);
+    });
+}
+
+// Tlač záznamov
+function printFiltered() {
+    const start
