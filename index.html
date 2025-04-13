@@ -27,9 +27,13 @@
             <textarea id="trigger" placeholder="Impulz spojený s vracaním"></textarea>
             <textarea id="food-after" placeholder="Čo som jedla po vracaní"></textarea>
             <textarea id="comments" placeholder="Iné komentáre"></textarea>
-            <textarea id="english" placeholder="Učila si sa dnes angličtinu?"></textarea>
-            <textarea id="retinol" placeholder="Retinol dnes večer bol?"></textarea>
-            <textarea id="cream" placeholder="Dala si si dnes 2x denne anticelulitídku krém?"></textarea>
+            <label>
+                <input type="checkbox" id="english"> Učila si sa dnes angličtinu?
+            </label>
+            <label>
+                <input type="checkbox" id="retinol"> Retinol dnes večer bol?
+            </label>
+            <textarea id="cream" placeholder="Dala si si dnes 2x denne anticelulitídny krém?"></textarea>
             <button onclick="addRecord()">Pridať záznam</button>
         </div>
 
@@ -42,12 +46,21 @@
             </div>
         </div>
 
+        <!-- Filter -->
+        <div>
+            <h3>Filter záznamov</h3>
+            <input type="date" id="filter-date-start" placeholder="Začiatočný dátum">
+            <input type="date" id="filter-date-end" placeholder="Koncový dátum">
+            <button onclick="applyFilter()">Použiť filter</button>
+        </div>
+
         <!-- Štatistiky -->
         <div>
             <h3>Štatistiky</h3>
             <p id="stats"></p>
         </div>
     </div>
+
     <script src="app.js"></script>
 </body>
 </html>
