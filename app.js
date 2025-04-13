@@ -3,7 +3,7 @@ let records = [];
 // Prihlásenie
 function login() {
     const PASSWORD = "tvojeheslo"; // Statické heslo priamo v kóde
-    const passwordInput = document.getElementById("password").value;
+    const passwordInput = document.getElementById("password").value.trim(); // Odstránenie medzier
     if (passwordInput === PASSWORD) {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("app").style.display = "block";
@@ -148,4 +148,4 @@ function displayFilteredRecords(filteredRecords) {
 
 // Tlač záznamov
 function printFiltered() {
-    const start
+    const startDate
