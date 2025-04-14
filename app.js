@@ -5,9 +5,7 @@ document.getElementById("login-button").onclick = accessApp;
 
 function accessApp() {  
     const passwordInput = prompt("Zadajte heslo:");  
-    console.log(`Zadané heslo: ${passwordInput}`); // Debug  
     if (passwordInput === "zuzana") {  
-        console.log('Prihlásenie úspešné'); // Debug  
         document.getElementById("login-screen").style.display = "none"; // Skrytie prihlasovacej obrazovky  
         document.getElementById("app").style.display = "block"; // Zobrazenie hlavnej aplikácie  
         loadRecords(); // Načítanie existujúcich záznamov z localStorage  
@@ -39,4 +37,11 @@ function addRecord() {
 // Uloženie údajov do localStorage  
 function saveRecords() {  
     try {  
-        localStorage.setItem("records", JSON
+        localStorage.setItem("records", JSON.stringify(records));  
+    } catch (error) {  
+        console.error("Chyba pri ukladaní záznamov:", error);  
+    }  
+}  
+
+// Načítanie údajov z localStorage  
+function loadRecords()
