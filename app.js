@@ -33,7 +33,8 @@ function addRecord() {
 // Uloženie údajov do localStorage
 function saveRecords() {
     try {
-        localStorage.setItem("records", JSON.stringify(records));
+        localStorage.setItem("records", JSON.stringify(records)); // Uloženie celého poľa 'records'
+        console.log("Záznamy boli úspešne uložené do localStorage.");
     } catch (error) {
         console.error("Chyba pri ukladaní záznamov do localStorage:", error);
     }
@@ -42,21 +43,24 @@ function saveRecords() {
 // Načítanie údajov z localStorage
 function loadRecords() {
     try {
-        const storedRecords = localStorage.getItem("records");
+        const storedRecords = localStorage.getItem("records"); // Načítanie zo 'localStorage'
         if (storedRecords) {
-            records = JSON.parse(storedRecords);
-            updateRecordList();
-            updateStats();
+            records = JSON.parse(storedRecords); // Parsovanie JSON údajov na pole
+            updateRecordList(); // Aktualizácia vizuálneho zoznamu
+            updateStats(); // Aktualizácia štatistík
+        } else {
+            console.log("Žiadne existujúce záznamy v localStorage.");
         }
     } catch (error) {
         console.error("Chyba pri načítavaní záznamov z localStorage:", error);
     }
 }
 
+
 // Aktualizácia zoznamu záznamov
 function updateRecordList() {
     const recordList = document.getElementById("record-list");
-    recordList.innerHTML = ""; // Vymazanie zoznamu pred aktualizáciou
+    recordList.innerHTML = ""; // Vyčistenie zoznamu pred aktualizáciou
     records.forEach(record => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
@@ -71,6 +75,7 @@ function updateRecordList() {
         recordList.appendChild(listItem);
     });
 }
+
 
 // Štatistiky
 function updateStats() {
