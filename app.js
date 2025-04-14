@@ -77,6 +77,14 @@ function updateRecordList() {
     });
 }
 
+function toggleHistory() {
+    const historyDiv = document.getElementById("history");
+    if (historyDiv.style.display === "none") {
+        historyDiv.style.display = "block"; // Zobrazenie histórie
+    } else {
+        historyDiv.style.display = "none"; // Skrytie histórie
+    }
+}
 
 // Štatistiky
 function updateStats() {
