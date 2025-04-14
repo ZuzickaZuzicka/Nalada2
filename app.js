@@ -89,6 +89,42 @@ function toggleHistory() {
     }
 }
 
+// Funkcia applyFilter
+function applyFilter() {
+    const startDate = document.getElementById("filter-date-start").value;
+    const startTime = document.getElementById("filter-time-start").value;
+    const endDate = document.getElementById("filter-date-end").value;
+    const endTime = document.getElementById("filter-time-end").value;
+
+    // Premenné pre konverziu dátumu a času
+    const startDateTime = startDate && startTime ? new Date(`${startDate}T${startTime}`) : null;
+    const endDateTime = endDate && endTime ? new Date(`${endDate}T${endTime}`) : null;
+
+    // Filtrovanie záznamov
+    const filteredRecords = records.filter(record => {
+        const recordDateTime = new Date(`${record.date}T${record.time}`);
+        return (!startDateTime || recordDateTime >= startDateTime) &&
+               (!endDateTime || recordDateTime <= endDateTime);
+    });
+
+    // Aktualizácia zobrazenia filtrovaných záznamov
+    const recordList = document.getElementById("record-list");
+    recordList.innerHTML = ""; // Vyčistiť zoznam
+    filteredRecords.forEach(record => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+            ${record.date} ${record.time} - ${record.throwUp ? "Vracanie" : "Bez vracania"}
+            <br>Impulz: ${record.trigger || "N/A"}
+            <br>Jedlo po vracaní: ${record.foodAfter || "N/A"}
+            <br>Komentár: ${record.comments || "N/A"}
+            <br>Angličtina: ${record.english ? "Áno" : "Nie"}
+            <br>Retinol: ${record.retinol ? "Áno" : "Nie"}
+            <br>Krém: ${record.cream || "N/A"}
+        `;
+        recordList.appendChild(listItem);
+    });
+}
+
 // Štatistiky
 function updateStats() {
     const stats = document.getElementById("stats");
