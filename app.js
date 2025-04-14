@@ -43,16 +43,17 @@ function saveRecords() {
 // Načítanie údajov z localStorage
 function loadRecords() {
     try {
-        const storedRecords = localStorage.getItem("records"); // Načítanie zo 'localStorage'
+        const storedRecords = localStorage.getItem("records");
         if (storedRecords) {
-            records = JSON.parse(storedRecords); // Parsovanie JSON údajov na pole
-            updateRecordList(); // Aktualizácia vizuálneho zoznamu
-            updateStats(); // Aktualizácia štatistík
+            records = JSON.parse(storedRecords);
+            console.log("Načítané záznamy:", records); // Výpis záznamov do konzoly
+            updateRecordList();
+            updateStats();
         } else {
-            console.log("Žiadne existujúce záznamy v localStorage.");
+            console.log("Žiadne údaje v localStorage.");
         }
     } catch (error) {
-        console.error("Chyba pri načítavaní záznamov z localStorage:", error);
+        console.error("Chyba pri načítavaní údajov z localStorage:", error);
     }
 }
 
