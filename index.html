@@ -1,66 +1,31 @@
 <!DOCTYPE html>
-<html lang="sk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>História záznamov</title>
+    <title>Aplikácia História</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="login-screen">
-        <h2>Prihlásenie</h2>
-        <button onclick="accessApp()">Prihlásiť</button>
+        <button onclick="accessApp()">Prihlásiť sa</button>
     </div>
-
-    <div id="app" class="container" style="display: none;">
-        <h1>Moja aplikácia</h1>
-
-        <!-- Formulár -->
-        <div>
-            <h3>Pridať záznam</h3>
-            <input type="date" id="record-date">
-            <input type="time" id="record-time">
-            <label>
-                <input type="checkbox" id="throw-up-check"> Vracanie
-            </label>
-            <textarea id="trigger" placeholder="Impulz spojený s vracaním"></textarea>
-            <textarea id="food-after" placeholder="Čo som jedla po vracaní"></textarea>
-            <textarea id="comments" placeholder="Iné komentáre"></textarea>
-            <label>
-                <input type="checkbox" id="english"> Učila si sa dnes angličtinu?
-            </label>
-            <label>
-                <input type="checkbox" id="retinol"> Retinol dnes večer bol?
-            </label>
-            <textarea id="cream" placeholder="Dala si si dnes 2x denne anticelulitídny krém?"></textarea>
-            <button onclick="addRecord()">Pridať záznam</button>
+    <div id="app" style="display: none;">
+        <h1>História Záznamov</h1>
+        <button onclick="toggleHistory()">Zobraziť históriu</button>
+        <div id="history" style="display: none;">
+            <table id="record-list" style="width: 100%; border-collapse: collapse;">
+                <!-- Tabuľka sa plní dynamicky -->
+            </table>
         </div>
-
-        <!-- História -->
-        <div>
-            <button onclick="toggleHistory()">Zobraziť históriu</button>
-            <div id="history" style="display: none;">
-                <h3>História záznamov</h3>
-                <ul id="record-list"></ul>
-            </div>
-        </div>
-
-        <!-- Filter -->
-        <div>
-            <h3>Filter záznamov</h3>
-            <input type="date" id="filter-date-start" placeholder="Začiatočný dátum">
-            <input type="time" id="filter-time-start" placeholder="Začiatočný čas">
-            <input type="date" id="filter-date-end" placeholder="Koncový dátum">
-            <input type="time" id="filter-time-end" placeholder="Koncový čas">
-            <button onclick="applyFilter()">Použiť filter</button>
-        </div>
-
-        <!-- Štatistiky -->
-        <div>
-            <h3>Štatistiky</h3>
-            <p id="stats"></p>
-        </div>
+        <div id="stats"></div>
+        <!-- Filtrovanie -->
+        <input type="date" id="filter-date-start">
+        <input type="time" id="filter-time-start">
+        <input type="date" id="filter-date-end">
+        <input type="time" id="filter-time-end">
+        <button onclick="applyFilter()">Použiť filter</button>
     </div>
-
-    <script src="app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
