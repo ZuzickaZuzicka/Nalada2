@@ -57,7 +57,6 @@ function loadRecords() {
     }
 }
 
-
 // Aktualizácia zoznamu záznamov
 function updateRecordList() {
     const recordList = document.getElementById("record-list");
@@ -77,12 +76,16 @@ function updateRecordList() {
     });
 }
 
+// Funkcia toggleHistory
 function toggleHistory() {
     const historyDiv = document.getElementById("history");
+    console.log("Funkcia toggleHistory spustená."); // Výpis do konzoly
     if (historyDiv.style.display === "none") {
         historyDiv.style.display = "block"; // Zobrazenie histórie
+        console.log("História zobrazená."); // Výpis do konzoly
     } else {
         historyDiv.style.display = "none"; // Skrytie histórie
+        console.log("História skrytá."); // Výpis do konzoly
     }
 }
 
