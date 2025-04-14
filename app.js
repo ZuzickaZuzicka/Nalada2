@@ -16,63 +16,27 @@ function accessApp() {
     }  
 }  
 
+// Pridanie záznamu  
+function addRecord() {  
+    const date = document.getElementById("record-date").value;  
+    const time = document.getElementById("record-time").value;  
+    const throwUp = document.getElementById("throw-up-check").checked;  
+    const trigger = document.getElementById("trigger").value || "N/A";  
+    const foodAfter = document.getElementById("food-after").value || "N/A";  
+    const comments = document.getElementById("comments").value || "N/A";  
+
+    if (!date || !time) {  
+        alert("Dátum a čas sú povinné!");  
+        return;  
+    }  
+
+    const record = { date, time, throwUp, trigger, foodAfter, comments };  
+    records.push(record);  
+    saveRecords();  
+    updateRecordList();  
+}  
+
 // Uloženie údajov do localStorage  
 function saveRecords() {  
     try {  
-        localStorage.setItem("records", JSON.stringify(records));  
-    } catch (error) {  
-        console.error("Chyba pri ukladaní záznamov:", error);  
-    }  
-}  
-
-// Načítanie údajov z localStorage  
-function loadRecords() {  
-    try {  
-        const storedRecords = localStorage.getItem("records");  
-        if (storedRecords) {  
-            records = JSON.parse(storedRecords);  
-            updateRecordList();  
-        }  
-    } catch (error) {  
-        console.error("Chyba pri načítaní záznamov:", error);  
-    }  
-}  
-
-// Aktualizácia zoznamu záznamov  
-function updateRecordList() {  
-    const recordList = document.getElementById("record-list");  
-    recordList.innerHTML = "";  
-
-    // Hlavička tabuľky  
-    const headerRow = document.createElement("tr");  
-    headerRow.innerHTML = `  
-        <th>Dátum</th>  
-        <th>Čas</th>  
-        <th>Vracanie</th>  
-        <th>Impulz</th>  
-        <th>Jedlo po vracaní</th>  
-        <th>Komentár</th>  
-    `;  
-    recordList.appendChild(headerRow);  
-
-    records.forEach(record => {  
-        const row = document.createElement("tr");  
-        row.innerHTML = `  
-            <td>${record.date}</td>  
-            <td>${record.time}</td>  
-            <td>${record.throwUp ? "Áno" : "Nie"}</td>  
-            <td>${record.trigger}</td>  
-            <td>${record.foodAfter}</td>  
-            <td>${record.comments}</td>  
-        `;  
-        recordList.appendChild(row);  
-    });  
-}  
-
-// Funkcia na prepínanie histórie  
-function toggleHistory() {  
-    const historyDiv = document.getElementById("history");  
-    historyDiv.style.display = historyDiv.style.display === "none" ? "block" : "none";  
-}  
-
-// Filtro
+        localStorage.setItem("records", JSON
