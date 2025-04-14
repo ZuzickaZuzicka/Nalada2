@@ -19,6 +19,15 @@
                 <!-- Tabuľka bude dynamicky naplnená -->  
             </table>  
         </div>  
+        <h2>Pridanie záznamu</h2>  
+        <input type="date" id="record-date">  
+        <input type="time" id="record-time">  
+        <label for="throw-up-check">Vracanie:</label>  
+        <input type="checkbox" id="throw-up-check">  
+        <input type="text" id="trigger" placeholder="Impulz">  
+        <input type="text" id="food-after" placeholder="Jedlo po vracaní">  
+        <input type="text" id="comments" placeholder="Komentár">  
+        <button onclick="addRecord()">Pridať záznam</button>  
         <div id="stats"></div>  
         <h2>Filter záznamov</h2>  
         <input type="date" id="filter-date-start">  
