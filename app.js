@@ -1,10 +1,15 @@
 let records = [];
 
-// Prihlásenie bez hesla
+// Prihlásenie na heslo
 function accessApp() {
-    document.getElementById("login-screen").style.display = "none";
-    document.getElementById("app").style.display = "block";
-    loadRecords();
+    const passwordInput = prompt("Zadajte heslo:");
+    if (passwordInput === "zuzana") {
+        document.getElementById("login-screen").style.display = "none"; // Skrytie prihlasovacej obrazovky
+        document.getElementById("app").style.display = "block"; // Zobrazenie hlavnej aplikácie
+        loadRecords(); // Načítanie existujúcich záznamov z localStorage
+    } else {
+        alert("Nesprávne heslo!");
+    }
 }
 
 // Pridanie záznamu
@@ -107,6 +112,17 @@ function applyFilter() {
 
     const recordList = document.getElementById("record-list");
     recordList.innerHTML = "";
+
+    const headerRow = document.createElement("tr");
+    headerRow.innerHTML = `
+        <th>Dátum</th>
+        <th>Čas</th>
+        <th>Vracanie</th>
+        <th>Impulz</th>
+        <th>Jedlo po vracaní</th>
+        <th>Komentár</th>
+    `;
+    recordList.appendChild(headerRow);
 
     filteredRecords.forEach(record => {
         const row = document.createElement("tr");
